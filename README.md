@@ -1,4 +1,5 @@
 1 - Build the local graddle to install the project dependecies
+
 2 - sql script of the database
 
       CREATE DATABASE IF NOT EXISTS task_management;

@@ -64,3 +64,10 @@ h1 {
     height: 30%;
     margin-right: 10px;
 }
+
+#searchForm {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}

@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -25,6 +26,14 @@ public class TaskController {
         return taskService.getTaskById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/filter/{searchStatus}")
+    public List<Task> getTaskFiltering(@PathVariable String searchStatus) {
+        return taskService.getAllTasks()
+                .stream()
+                .filter(task -> task.getStatus().name().equals(searchStatus))
+                .collect(Collectors.toList());
     }
 
     @PostMapping

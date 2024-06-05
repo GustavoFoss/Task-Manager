@@ -27,6 +27,33 @@ async function fetchTasks() {
     });
 }
 
+async function searchForTasks(event) {
+    event.preventDefault()
+    const tasksDiv = document.getElementById("tasks");
+    tasksDiv.innerHTML = "";
+    const search = document.getElementById("statusFilter").value;
+    const response = await fetch(`http://localhost:8080/api/tasks/filter/${search}`);
+    const tasks = await response.json();
+    tasks.forEach(task => {
+        var taskElement = document.createElement(`div`);
+        taskElement.className = "task";
+        var taskStatus = task.status === 'PENDING' ? 'taskPending' : 'taskCompleted'
+        taskElement.innerHTML = `
+                        <div id="status${task.id}" class="${taskStatus}"> <p></p></div>
+                        <div id="task">
+                            <span>${task.title} - ${task.status}</span>
+                            <div>
+                                <button onclick="updateTask(${task.id}, 'IN_PROGRESS')">In Progress</button>
+                                <button onclick="updateTask(${task.id}, 'COMPLETED')">Completed</button>
+                                <button onclick="deleteTask(${task.id})">Delete</button>
+                            </div>
+                        </div>
+                    `;
+        tasksDiv.appendChild(taskElement);
+    });
+}
+
+
 async function saveTask() {
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;

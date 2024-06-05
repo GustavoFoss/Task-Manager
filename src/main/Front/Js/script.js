@@ -9,10 +9,12 @@ async function fetchTasks() {
     const tasks = await response.json();
     tasksDiv.innerHTML = "";
     tasks.forEach(task => {
-        var taskElement = document.createElement(`div${task.id}`);
+        var taskElement = document.createElement(`div`);
         taskElement.className = "task";
+        var taskStatus = task.status === 'PENDING' ? 'taskPending' : 'taskCompleted'
         taskElement.innerHTML = `
-                        <div id="task${task.id}">
+                        <div id="status${task.id}" class="${taskStatus}"> <p></p></div>
+                        <div id="task">
                             <span>${task.title} - ${task.status}</span>
                             <div>
                                 <button onclick="updateTask(${task.id}, 'IN_PROGRESS')">In Progress</button>
@@ -55,10 +57,7 @@ async function updateTask(id,status) {
         body: JSON.stringify({status})
     }).then(response => {
         if (response.ok) {
-            var taskElement = document.createElement(`div${id}`);
-            taskElement.className = "task taskCompleted";
-
-            fetchTasks();
+            fetchTasks()
         } else {
             alert("Failed to update task");
         }

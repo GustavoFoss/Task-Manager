@@ -33,7 +33,6 @@ h1 {
 
 .task {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 10px;
     border: 1px solid #ccc;
@@ -53,4 +52,15 @@ h1 {
 
 .taskCompleted {
     background-color: green;
+    width: 10px;
+    height: 100%;
+    float: left;
+    margin-right: 10px;
+}
+
+.taskPending {
+    background-color: yellow;
+    width: 10px;
+    height: 30%;
+    margin-right: 10px;
 }

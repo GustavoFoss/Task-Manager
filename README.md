@@ -13,6 +13,8 @@
           status ENUM('PENDING', 'IN_PROGRESS', 'COMPLETED') NOT NULL,
           creation_date DATETIME NOT NULL
       );
+
+      at the app settings insert you user and password for mysql
       
 3 - run the backend that is the spring application at port 8080
 

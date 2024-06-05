@@ -1,4 +1,4 @@
-1 - Build the local graddle to install the project dependecies
+1 - Build the local graddle to install the project dependecies (to the project work needs jdk 22 and mysql 8 intalled at your pc)
 
 2 - sql script of the database
 
@@ -14,3 +14,4 @@
           creation_date DATETIME NOT NULL
       );
 3 - run the backend that is the spring application at port 8080
+4 - with the browser, use the html archive

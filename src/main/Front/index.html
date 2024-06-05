@@ -1,153 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Management System</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        #taskForm {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        #taskForm input {
-            margin-right: 10px;
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        #taskForm button {
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-
-        #tasks {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .task {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-
-        .task span {
-            flex-grow: 1;
-            margin-right: 20px;
-        }
-
-        .task button {
-            margin-left: 10px;
-        }
-    </style>
-</head>
-<body>
-<h1>Task Management System</h1>
-<form id="taskForm">
-    <input type="text" id="title" placeholder="Title" required>
-    <input type="text" id="description" placeholder="Description" required>
-    <button type="submit">Add Task</button>
-</form>
-<div id="tasks"></div>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const taskForm = document.getElementById("taskForm");
-        const tasksDiv = document.getElementById("tasks");
-
-        // Função para buscar e exibir tarefas
-        const fetchTasks = async () => {
-            const response = await fetch("http://localhost:8080/api/tasks");
-            const tasks = await response.json();
-            tasksDiv.innerHTML = "";
-            tasks.forEach(task => {
-                const taskElement = document.createElement("div");
-                taskElement.className = "task";
-                taskElement.innerHTML = `
-                        <span>${task.title} - ${task.status}</span>
-                        <div>
-                            <button onclick="updateTask(${task.id}, 'IN_PROGRESS')">In Progress</button>
-                            <button onclick="updateTask(${task.id}, 'COMPLETED')">Completed</button>
-                            <button onclick="deleteTask(${task.id})">Delete</button>
-                        </div>
-                    `;
-                tasksDiv.appendChild(taskElement);
-            });
-        };
-
-        // Função para adicionar tarefa
-        taskForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const title = document.getElementById("title").value;
-            const description = document.getElementById("description").value;
-
-            await fetch("http://localhost:8080/api/tasks", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ title, description, status: "PENDING" })
-            }).then(function (response) {
-                if (response.ok) {
-                    fetchTasks();
-                } else {
-                    alert("Failed to add task");
-                }
-            }).catch(function (error) {
-                console.error("Failed to fetch:", error);
-            });
-        });
-
-        // Função para atualizar tarefa
-        window.updateTask = async (id, status) => {
-            const response = await fetch(`http://localhost:8080/api/tasks/${id}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ status })
-            });
-
-            if (response.ok) {
-                fetchTasks();
-            } else {
-                alert("Failed to update task");
-            }
-        };
-
-        // Função para deletar tarefa
-        window.deleteTask = async (id) => {
-            const response = await fetch(`http://localhost:8080/api/tasks/${id}`, {
-                method: "DELETE"
-            });
-
-            if (response.ok) {
-                fetchTasks();
-            } else {
-                alert("Failed to delete task");
-            }
-        };
-
-        // Buscar e exibir tarefas ao carregar a página
-        fetchTasks();
-    });
-</script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Task Management System</title>
+        <link rel="stylesheet" type="text/css" href="Css/styles.css">
+        <script src="Js/script.js" type="application/javascript"></script>
+    </head>
+    <body>
+        <h1>Task Management System</h1>
+        <form id="taskForm" onsubmit="saveTask()">
+            <input type="text" id="title" placeholder="Title" required>
+            <input type="text" id="description" placeholder="Description" required>
+            <button type="submit">Add Task</button>
+        </form>
+        <div id="tasks"></div>
+    </body>
 </html>

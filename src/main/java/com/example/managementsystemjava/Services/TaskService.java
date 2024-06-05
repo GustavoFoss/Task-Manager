@@ -37,8 +37,6 @@ public class TaskService {
         if (task.getStatus() != Status.PENDING) {
             throw new RuntimeException("Tasks can only be updated if in status pending");
         }
-        task.setTitle(taskDetails.getTitle());
-        task.setDescription(taskDetails.getDescription());
         task.setStatus(taskDetails.getStatus());
         return taskRepository.save(task);
     }
